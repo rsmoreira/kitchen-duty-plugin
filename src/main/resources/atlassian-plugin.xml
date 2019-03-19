@@ -18,7 +18,10 @@
     <resource type="download" name="images/" location="/images"/>  
     <context>kitchen-duty-plugin</context> 
   </web-resource>  
-  <webwork1 key="kitchen-duty-planning-webwork-module" name="Kitchen Duty Planning Webwork Module" i18n-name-key="kitchen-duty-planning-webwork-module.name"> 
+  <webwork1 key="kitchen-duty-planning-webwork-module"
+            name="Kitchen Duty Planning Webwork Module"
+            i18n-name-key="kitchen-duty-planning-webwork-module.name"
+            roles-required="admin">
     <description key="kitchen-duty-planning-webwork-module.description">The Kitchen Duty Planning Webwork Module Plugin</description>  
     <actions> 
       <action name="com.comsysto.kitchen.duty.webwork.KitchenDutyPlanningWebworkAction" alias="KitchenDutyPlanningWebworkAction"> 
