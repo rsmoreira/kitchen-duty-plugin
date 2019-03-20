@@ -1,5 +1,7 @@
 package ut.com.comsysto.kitchen.duty.rest;
 
+import com.atlassian.jira.bc.user.search.UserSearchParams;
+import com.atlassian.jira.bc.user.search.UserSearchService;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
@@ -10,6 +12,8 @@ import com.comsysto.kitchen.duty.rest.UserSearchResource;
 import com.comsysto.kitchen.duty.rest.UserSearchResourceModel;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.GenericEntity;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserSearchResourceTest {
 
@@ -25,11 +29,18 @@ public class UserSearchResourceTest {
 
     @Test
     public void messageIsValid() {
-        UserSearchResource resource = new UserSearchResource();
+        final List<String> mockedUsers = new ArrayList<>();
+        mockedUsers.add("bob");
+        mockedUsers.add("sue");
 
-        Response response = resource.getMessage();
-        final UserSearchResourceModel message = (UserSearchResourceModel) response.getEntity();
+        UserSearchService mockedUserSearchService = Mockito.mock(UserSearchService.class);
+        when(mockedUserSearchService.findUserNames(anyString(), any(UserSearchParams.class))).thenReturn(mockedUsers);
 
-        assertEquals("wrong message","Hello World",message.getMessage());
+        UserSearchResource resource = new UserSearchResource(mockedUserSearchService);
+
+        Response response = resource.searchUsers("bo", null);
+        final List<UserSearchResourceModel> users = (List<UserSearchResourceModel>) response.getEntity();
+
+        assertEquals("should contain bob", "bob", users.get(0).getText());
     }
 }
